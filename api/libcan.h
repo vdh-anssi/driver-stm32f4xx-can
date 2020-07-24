@@ -274,6 +274,10 @@ mbed_error_t can_receive(const __in  can_context_t *ctx,
                                __out can_header_t  *header,
                                __out can_data_t    *data);
 
+
+//******************** DEBUG *******************************
+void print_can_status(const __in int i);
+
 #ifdef _LIBCAN_
 volatile uint32_t nb_CAN_IRQ_Handler = 0;
 #else

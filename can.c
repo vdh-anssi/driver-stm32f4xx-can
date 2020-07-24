@@ -1120,3 +1120,11 @@ mbed_error_t can_is_txmsg_pending(const __in  can_context_t *ctx,
 err:
     return errcode;
 }
+
+//******************** DEBUG *******************************
+void print_can_status(const __in int i) {
+  printf("Master Control Register: %x\n", *r_CANx_MCR(i));
+  printf("Master Status  Register: %x\n", *r_CANx_MSR(i));
+  printf("Error  Status  Register: %x\n", *r_CANx_ESR(i));
+  printf("Interrupt Enable Register: %x\n", *r_CANx_IER(i));
+}
