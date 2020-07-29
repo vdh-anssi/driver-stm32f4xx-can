@@ -242,9 +242,9 @@ static void can_IRQHandler(uint8_t irq,
             /* Is it getting better on the CAN Bus ? */
             uint16_t max = error.tx_count;
             if (max < error.rx_count) max = error.rx_count;
-            if (max < 255) flag |= CAN_IER_BOFIE_Msk;
-            if (max < 127) flag |= CAN_IER_EPVIE_Msk;
-            if (max <  95) flag |= CAN_IER_EWGIE_Msk;
+            //if (max < 255) flag |= CAN_IER_BOFIE_Msk;
+            //if (max < 127) flag |= CAN_IER_EPVIE_Msk;
+            //if (max <  95) flag |= CAN_IER_EWGIE_Msk;
             set_reg_bits(r_CANx_IER(id), flag);
         } /* End of Error Condition */
         else {
