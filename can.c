@@ -803,7 +803,7 @@ mbed_error_t can_start(__inout can_context_t *ctx)
         uint32_t ier_val = 0;
 
         ier_val = CAN_IER_ERRIE_Msk  |
-                  //CAN_IER_LECIE_Msk  | // signal all CAN errors...
+                  CAN_IER_LECIE_Msk  | // signal all CAN errors...
                   CAN_IER_BOFIE_Msk  |
                   CAN_IER_EPVIE_Msk  |
                   CAN_IER_EWGIE_Msk  |
