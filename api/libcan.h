@@ -79,8 +79,10 @@ typedef enum {
     CAN_EVENT_ERROR_BUS_OFF_STATE       = 23, // TX Error Count > 255
 } can_event_t;
 
+const char *can_event_str(can_event_t event);
+
 /* CAN Bus Error codes */
-enum can_code_t {
+typedef enum {
   CAN_CODE_NO_ERROR             =0,
   CAN_CODE_STUFF_ERROR          =1,// 6 consecutive equal bits in a frame.
   CAN_CODE_FORM_ERROR           =2,// invalid bit field in a CAN frame.
@@ -89,7 +91,9 @@ enum can_code_t {
   CAN_CODE_BIT_DOMINANT_ERROR   =5,// monitored a recessive bit while sending D
   CAN_CODE_CRC_ERROR            =6,// Cyclic Redundancy Check failed.
   CAN_CODE_SET_BY_SOFTWARE      =7 // can't be set by hardware.
-};
+} can_code_t;
+
+const char *can_error_code_str(can_code_t lec);
 
 typedef struct __attribute__((packed)) {
    uint8_t  last_code;
@@ -273,6 +277,8 @@ mbed_error_t can_receive(const __in  can_context_t *ctx,
                          const __in  can_fifo_t     fifo,
                                __out can_header_t  *header,
                                __out can_data_t    *data);
+
+
 
 
 //******************** DEBUG *******************************

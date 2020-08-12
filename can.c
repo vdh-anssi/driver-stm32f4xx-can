@@ -333,6 +333,7 @@ mbed_error_t can_declare(__inout can_context_t *ctx)
 		    GPIO_MASK_SET_PUPD | GPIO_MASK_SET_AFR;
     ctx->can_dev.gpios[1].speed = GPIO_PIN_HIGH_SPEED;
     ctx->can_dev.gpios[1].mode  = GPIO_PIN_ALTERNATE_MODE;
+    ctx->can_dev.gpios[1].speed = GPIO_PIN_HIGH_SPEED;
     ctx->can_dev.gpios[1].type  = GPIO_PIN_OTYPER_PP;
     ctx->can_dev.gpios[1].pupd  = GPIO_NOPULL;
 
@@ -803,7 +804,7 @@ mbed_error_t can_start(__inout can_context_t *ctx)
         uint32_t ier_val = 0;
 
         ier_val = CAN_IER_ERRIE_Msk  |
-                  CAN_IER_LECIE_Msk  | // signal all CAN errors...
+                  //CAN_IER_LECIE_Msk  | // signal all CAN errors...
                   CAN_IER_BOFIE_Msk  |
                   CAN_IER_EPVIE_Msk  |
                   CAN_IER_EWGIE_Msk  |
@@ -1120,6 +1121,71 @@ mbed_error_t can_is_txmsg_pending(const __in  can_context_t *ctx,
 err:
     return errcode;
 }
+
+/************************************
+ *  Events.
+ ************************************/
+
+ static const char *can_events[24] = {
+     "Enter sleep",
+     "RX wakeup msg",
+     "RX FIFO 0 msg pending",
+     "RX FIFO 0 full",
+     "RX FIFO 0 overrun",
+     "RX FIFO 1 msg pending",
+     "RX FIFO 1 full",
+     "RX FIFO 1 overrun",
+     "TX MBox 0 complete",
+     "TX MBox 0 arbitration",
+     "TX MBox 0 error",
+     "TX MBox 1 complete",
+     "TX MBox 1 arbitration",
+     "TX MBox 1 error",
+     "TX MBox 2 complete",
+     "TX MBox 2 arbitration",
+     "TX MBox 2 error",
+     "Unknown error",
+     "CAN bus error",
+     "RX error warning",
+     "TX error warning",
+     "RX passive state",
+     "TX passive state",
+     "Bus Off state"
+ };
+
+const char *can_event_str(can_event_t event)
+ {
+     if (event <= CAN_EVENT_ERROR_BUS_OFF_STATE) {
+         return can_events[event];
+     }
+     return 0;
+ }
+
+
+/************************************
+ *  Errors.
+ ************************************/
+
+ static const char *can_error_code[8] = {
+     "no",
+     "stuff",
+     "form",
+     "acknowledgment",
+     "recessive bit",
+     "dominant bit",
+     "CRC",
+     "software set",
+ };
+
+const char *can_error_code_str(can_code_t lec)
+ {
+     if (lec <= CAN_CODE_SET_BY_SOFTWARE) {
+         return can_error_code[lec];
+     }
+     return 0;
+ }
+
+
 
 //******************** DEBUG *******************************
 void print_can_status(const __in int i) {
