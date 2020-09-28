@@ -242,9 +242,9 @@ static void can_IRQHandler(uint8_t irq,
             /* Is it getting better on the CAN Bus ? */
             uint16_t max = error.tx_count;
             if (max < error.rx_count) max = error.rx_count;
-            //if (max < 255) flag |= CAN_IER_BOFIE_Msk;
-            //if (max < 127) flag |= CAN_IER_EPVIE_Msk;
-            //if (max <  95) flag |= CAN_IER_EWGIE_Msk;
+            if (max < 255) flag |= CAN_IER_BOFIE_Msk;
+            if (max < 127) flag |= CAN_IER_EPVIE_Msk;
+            if (max <  95) flag |= CAN_IER_EWGIE_Msk;
             set_reg_bits(r_CANx_IER(id), flag);
         } /* End of Error Condition */
         else {
@@ -324,16 +324,15 @@ mbed_error_t can_declare(__inout can_context_t *ctx)
 		    GPIO_MASK_SET_MODE | GPIO_MASK_SET_TYPE | GPIO_MASK_SET_SPEED |
 		    GPIO_MASK_SET_PUPD | GPIO_MASK_SET_AFR;
 	  ctx->can_dev.gpios[0].mode  = GPIO_PIN_ALTERNATE_MODE;
-	  ctx->can_dev.gpios[0].speed = GPIO_PIN_HIGH_SPEED;
+	  ctx->can_dev.gpios[0].speed = GPIO_PIN_VERY_HIGH_SPEED;
 	  ctx->can_dev.gpios[0].type  = GPIO_PIN_OTYPER_PP;
 	  ctx->can_dev.gpios[0].pupd  = GPIO_NOPULL;
 
     ctx->can_dev.gpios[1].mask =
 		    GPIO_MASK_SET_MODE | GPIO_MASK_SET_TYPE | GPIO_MASK_SET_SPEED |
 		    GPIO_MASK_SET_PUPD | GPIO_MASK_SET_AFR;
-    ctx->can_dev.gpios[1].speed = GPIO_PIN_HIGH_SPEED;
     ctx->can_dev.gpios[1].mode  = GPIO_PIN_ALTERNATE_MODE;
-    ctx->can_dev.gpios[1].speed = GPIO_PIN_HIGH_SPEED;
+    ctx->can_dev.gpios[1].speed = GPIO_PIN_VERY_HIGH_SPEED;
     ctx->can_dev.gpios[1].type  = GPIO_PIN_OTYPER_PP;
     ctx->can_dev.gpios[1].pupd  = GPIO_NOPULL;
 
